@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Front page challenji</title>
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+	<a class="navbar-brand" href="#">Challenji</a>
+      </div>
+      <ul class="nav navbar-nav">
+	<li class="active" id="home"><a href="fronpage.html">Home</a></li>
+	<li id="login"><a href="#">Login</a></li>
+	<li><a href="#">Profile</a></li>
+	<li><a href="#">Scores</a></li>
+      </ul>
+    </div>
+  </nav> 
+  
+  <div class="container-fluid center" style="margin-top: 200px;">
+    <div class="row ">
+      <div class="col-md-7 col-md-offset-2">
+        <div id="custom-search-input ">
+          <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg" placeholder="Search Challenjis" />
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-lg" type="button">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function(){
+    $('#login').popover({
+    placement: 'bottom',
+    title: 'Popover Form',
+    html:true,
+    content:  $('#myForm').html()
+    }).on('click', function(){
+    $('#login').addClass('active');
+    $('#home').removeClass('active');
+    // had to put it within the on click action so it grabs the correct info on submit
+    $('.btn-primary').click(function(){
+    $('#result').after("form submitted by " + $('#email').val())
+    $.post('/echo/html/',  {
+    email: $('#email').val(),
+    name: $('#name').val(),
+    gender: $('#gender').val()
+    }, function(r){
+    $('#pops').popover('hide')
+    $('#result').html('resonse from server could be here' )
+    })
+    })
+    })
+    })
+
+  </script>
+  <div id="myForm" class="hide">
+    <form action="/echo/html/" id="popForm" method="get">
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" class="form-control input-md">
+        <label for="Password">Password:</label>
+        <input type="text" name="name" id="name" class="form-control input-md">
+        <label for="denger">Gender:</label>
+        <select name="gender" id="gender" class="form-control input-md"><option value="male">Male</option><option value="female">Female</option></select>
+        <label for="about">About Me:</label>
+        <textarea rows="3" name="about" id="about" class="form-control input-md"></textarea>
+        <button type="button" class="btn btn-primary" data-loading-text="Sending info.."><em class="icon-ok"></em> Save</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
